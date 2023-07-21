@@ -19,6 +19,10 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = ">= 1.7.0"
     }
+		azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.40.0"
+    }
   }
 }
 
@@ -66,4 +70,8 @@ module "kubernetes-config" {
   source       = "./kubernetes-config"
   cluster_name = local.cluster_name
   kubeconfig   = data.azurerm_kubernetes_cluster.default.kube_config_raw
+}
+
+module "aad" {
+	source = "./aad"
 }
