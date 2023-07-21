@@ -13,3 +13,7 @@ variable "cluster_name" {
 variable "location" {
   type = string
 }
+
+variable "cluster_admin_group_id" {
+	type = string
+}
