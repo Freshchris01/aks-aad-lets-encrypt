@@ -35,3 +35,4 @@ terraform.rc
 
 set_env.sh
 sp.json
+kubeconfig
