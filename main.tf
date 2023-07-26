@@ -127,3 +127,9 @@ module "kubernetes-config" {
   source       = "./kubernetes-config"
   cluster_name = local.cluster_name
 }
+
+
+module "azure" {
+	source = "./azure"
+	rg-name = local.cluster_name
+}
