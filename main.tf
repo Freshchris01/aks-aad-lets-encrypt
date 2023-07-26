@@ -126,10 +126,14 @@ module "kubernetes-config" {
   depends_on   = [module.aks-cluster]
   source       = "./kubernetes-config"
   cluster_name = local.cluster_name
+	issuer_url = data.azurerm_kubernetes_cluster.default.oidc_issuer_url
+	federated_identity_id = module.azure.parent_id
+	rg_name = local.cluster_name
 }
 
 
 module "azure" {
 	source = "./azure"
 	rg-name = local.cluster_name
+	location = var.location
 }
