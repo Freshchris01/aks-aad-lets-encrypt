@@ -110,6 +110,9 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_subscription" "current" {
+}
+
 module "aad" {
   source = "./aad"
 }
@@ -128,7 +131,10 @@ module "kubernetes-config" {
   cluster_name = local.cluster_name
 	issuer_url = data.azurerm_kubernetes_cluster.default.oidc_issuer_url
 	federated_identity_id = module.azure.parent_id
+	identity_client_id = module.azure.identity_client_id
 	rg_name = local.cluster_name
+	subscription_id = data.azurerm_subscription.current.subscription_id
+	cert_mail = "c.d@web.de"
 }
 
 
