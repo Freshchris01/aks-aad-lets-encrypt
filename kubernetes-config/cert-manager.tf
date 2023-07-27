@@ -62,3 +62,28 @@ resource "kubectl_manifest" "staging_issuer" {
               clientID: ${var.identity_client_id}
     EOF
 }
+
+resource "kubectl_manifest" "production_issuer" {
+  yaml_body = <<-EOF
+  apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: letsencrypt-production
+    namespace: ingress
+  spec:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      email: ${var.cert_mail}
+      privateKeySecretRef:
+        name: letsencrypt-production
+      solvers:
+      - dns01:
+          azureDNS:
+            resourceGroupName: ${var.rg_name}
+            subscriptionID: ${var.subscription_id}
+            hostedZoneName: fs557.org
+            environment: AzurePublicCloud
+            managedIdentity:
+              clientID: ${var.identity_client_id}
+    EOF
+}
