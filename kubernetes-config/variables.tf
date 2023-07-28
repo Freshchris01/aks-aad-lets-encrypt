@@ -19,3 +19,6 @@ variable "subscription_id" {
 variable "cert_mail" {
   type = string
 }
+variable "domain_name" {
+  type = string
+}

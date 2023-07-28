@@ -43,7 +43,7 @@ provider "kubernetes" {
       "--environment",
       "AzurePublicCloud",
       "--tenant-id",
-      var.tenant_id,
+      data.azurerm_subscription.current.tenant_id,
       "--server-id",
       var.aad_server_id,
       "--client-id",
@@ -69,7 +69,7 @@ provider "helm" {
         "--environment",
         "AzurePublicCloud",
         "--tenant-id",
-        var.tenant_id,
+        data.azurerm_subscription.current.tenant_id,
         "--server-id",
         var.aad_server_id,
         "--client-id",
@@ -95,7 +95,7 @@ provider "kubectl" {
       "--environment",
       "AzurePublicCloud",
       "--tenant-id",
-      var.tenant_id,
+      data.azurerm_subscription.current.tenant_id,
       "--server-id",
       var.aad_server_id,
       "--client-id",
@@ -135,11 +135,13 @@ module "kubernetes-config" {
 	rg_name = local.cluster_name
 	subscription_id = data.azurerm_subscription.current.subscription_id
 	cert_mail = "c.d@web.de"
+	domain_name = var.domain_name
 }
 
 
 module "azure" {
 	source = "./azure"
-	rg-name = local.cluster_name
+	rg_name = local.cluster_name
 	location = var.location
+	domain_name = var.domain_name
 }

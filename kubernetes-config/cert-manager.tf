@@ -56,7 +56,7 @@ resource "kubectl_manifest" "staging_issuer" {
           azureDNS:
             resourceGroupName: ${var.rg_name}
             subscriptionID: ${var.subscription_id}
-            hostedZoneName: fs557.org
+            hostedZoneName: ${var.domain_name}
             environment: AzurePublicCloud
             managedIdentity:
               clientID: ${var.identity_client_id}
@@ -81,9 +81,32 @@ resource "kubectl_manifest" "production_issuer" {
           azureDNS:
             resourceGroupName: ${var.rg_name}
             subscriptionID: ${var.subscription_id}
-            hostedZoneName: fs557.org
+            hostedZoneName: ${var.domain_name}
             environment: AzurePublicCloud
             managedIdentity:
               clientID: ${var.identity_client_id}
+    EOF
+}
+
+resource "kubectl_manifest" "cerrificate" {
+  yaml_body = <<-EOF
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: www
+    spec:
+      secretName: www-tls
+      privateKey:
+        rotationPolicy: Always
+      commonName: www.${var.domain_name}
+      dnsNames:
+        - www.${var.domain_name}
+      usages:
+        - digital signature
+        - key encipherment
+        - server auth
+      issuerRef:
+        name: letsencrypt-production
+        kind: ClusterIssuer
     EOF
 }
