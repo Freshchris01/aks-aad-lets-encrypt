@@ -18,6 +18,7 @@ To deploy the architecture, follow these steps:
 - Clone the repository
 - Create a Service Principal in Azure and use it to authenticate with the Azure Terraform module
 - Create `prod.tfvars` with the string values: `client_id`, `client_secret` which relate to the user managed identity which handles the domain ownership proof
+- Depending on your setup, you might create an App Service Domain in the Azure Portal and import the corresponding DNS Zone to `module.azure.azurerm_dns_zone.app`
 - Deploy the Terraform Module `terraform apply -var-file=prod.tfvars`
 # Login to the cluster
 In order to access the AKS cluster, the `kubelogin` library is used. Follow [the instructions](https://azure.github.io/kubelogin/concepts/login-modes/devicecode.html#usage-examples) to connect to a deployed cluster.
