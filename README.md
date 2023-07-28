@@ -7,10 +7,15 @@ This repository is a template written in Terraform (IaC) to deploy an AKS cluste
 - Certificate management of the AKS cluster with Let's Encrypt
 # Architecture
 !["Target Architecture"](./architecture.png)
+Notice: The components inside the AKS cluster are simplified. The architecture diagram is about the connection of Azure components with Let's Encrypt.
+
+The dotted arrow describes the certificate issuing workflow with Let's Encrypt.
+
+The normal arrow describes the application flow when opening the domain in the browser.
 
 # How to deploy?
 To deploy the architecture, follow these steps:
-- Clone repo
+- Clone the repository
 - Create a Service Principal in Azure and use it to authenticate with the Azure Terraform module
 - Create `prod.tfvars` with the string values: `client_id`, `client_secret` which relate to the user managed identity which handles the domain ownership proof
 - Deploy the Terraform Module `terraform apply -var-file=prod.tfvars`
